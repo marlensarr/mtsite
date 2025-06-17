@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мои приложения | Быстрый доступ</title>
     <meta name="description" content="Алихан котак!">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/906/906377.png">
     <style>
         * {
             margin: 0;
@@ -17,6 +18,7 @@
             --bg-dark: #0a0a0a;
             --card-bg: #1a1a1a;
             --accent: #7c4dff;
+            --accent-light: #9a67ff;
             --text-light: #f5f5f5;
             --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -29,51 +31,64 @@
             justify-content: center;
             align-items: center;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            padding: 20px;
+            padding: 40px 20px;
             color: var(--text-light);
             position: relative;
             overflow-x: hidden;
         }
         
+        /* Анимированный градиентный фон */
         body::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(124, 77, 255, 0.1) 0%, transparent 70%);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at center, 
+                rgba(124, 77, 255, 0.15) 0%, 
+                transparent 60%
+            );
             z-index: -1;
+            animation: gradientMove 15s infinite alternate linear;
+        }
+        
+        @keyframes gradientMove {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(25%, 25%); }
+            100% { transform: translate(-25%, -25%); }
         }
         
         .header {
             text-align: center;
             margin-bottom: 40px;
-            max-width: 500px;
+            max-width: 600px;
             animation: fadeIn 1s ease;
         }
         
         .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #ff6b6b, #7c4dff);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ff6b6b, var(--accent));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 10px rgba(124, 77, 255, 0.2);
         }
         
         .header p {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             opacity: 0.8;
             line-height: 1.6;
         }
         
         .container {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             width: 100%;
-            max-width: 400px;
+            max-width: 900px;
             animation: slideUp 0.8s ease;
         }
         
@@ -82,14 +97,45 @@
             border-radius: 20px;
             display: flex;
             align-items: center;
-            padding: 22px;
-            gap: 22px;
+            padding: 25px;
+            gap: 20px;
             cursor: pointer;
             transition: var(--transition);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Эффект "блика" при наведении */
+        .icon-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 45%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 55%
+            );
+            transform: rotate(30deg);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .icon-card:hover::after {
+            opacity: 1;
+            animation: shine 1.5s;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
         }
         
         .icon-card:hover, .icon-card:active {
@@ -100,14 +146,16 @@
         }
         
         .icon-card img {
-            width: 54px;
-            height: 54px;
+            width: 60px;
+            height: 60px;
             object-fit: contain;
             transition: var(--transition);
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
         }
         
         .icon-card:hover img {
-            transform: scale(1.15);
+            transform: scale(1.15) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(124, 77, 255, 0.3));
         }
         
         .icon-text {
@@ -116,60 +164,89 @@
         
         .icon-text h3 {
             font-size: 1.4rem;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .icon-card:hover .icon-text h3 {
+            color: var(--accent-light);
         }
         
         .icon-text p {
-            font-size: 0.95rem;
+            font-size: 1rem;
             opacity: 0.7;
             font-weight: 400;
         }
         
         .share-section {
-            margin-top: 40px;
+            margin-top: 50px;
             text-align: center;
             width: 100%;
-            max-width: 400px;
+            max-width: 600px;
             animation: fadeIn 1.2s ease;
         }
         
         .share-title {
             font-size: 1.3rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             opacity: 0.9;
         }
         
         .share-buttons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
+            flex-wrap: wrap;
         }
         
         .share-button {
             background: rgba(124, 77, 255, 0.15);
             color: var(--text-light);
             border: none;
-            padding: 14px 25px;
+            padding: 15px 30px;
             font-size: 1rem;
             border-radius: 50px;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             border: 1px solid rgba(124, 77, 255, 0.3);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Эффект пульсации при клике */
+        .share-button:active::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+            animation: pulse 0.5s;
+        }
+        
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(20); opacity: 0; }
         }
         
         .share-button:hover {
             background: rgba(124, 77, 255, 0.25);
             transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(124, 77, 255, 0.2);
         }
         
         .footer {
-            margin-top: 40px;
+            margin-top: 50px;
             text-align: center;
             font-size: 0.9rem;
             opacity: 0.6;
@@ -192,13 +269,46 @@
             }
         }
         
-        /* Адаптив для маленьких экранов */
-        @media (max-width: 480px) {
-            .header h1 { font-size: 1.8rem; }
-            .icon-card { padding: 18px; gap: 18px; }
-            .icon-card img { width: 48px; height: 48px; }
-            .share-buttons { flex-direction: column; }
-            .share-button { justify-content: center; }
+        /* Адаптив для мобильных устройств */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            .icon-card {
+                padding: 20px;
+                gap: 18px;
+            }
+            
+            .icon-card img {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .share-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Эффект загрузки для иконок */
+        .icon-card img {
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .icon-card:nth-child(1) img {
+            animation-delay: 0.2s;
+        }
+        
+        .icon-card:nth-child(2) img {
+            animation-delay: 0.4s;
         }
     </style>
 </head>
@@ -209,10 +319,9 @@
     </div>
     
     <div class="container">
-  
         <!-- Telegram Account 1 -->
         <div class="icon-card" onclick="window.open('https://t.me/alikhankotak', '_blank')">
-            <img src="https://cdn-icons-png.flaticon.com/512/906/906377.png" alt="Telegram">
+            <img src="https://cdn-icons-png.flaticon.com/512/906/906377.png" alt="Telegram" loading="lazy">
             <div class="icon-text">
                 <h3>Telegram</h3>
                 <p>Канал</p>
@@ -221,7 +330,7 @@
         
         <!-- Telegram Account 2 -->
         <div class="icon-card" onclick="window.open('https://t.me/marlensarr', '_blank')">
-            <img src="https://cdn-icons-png.flaticon.com/512/906/906377.png" alt="Telegram">
+            <img src="https://cdn-icons-png.flaticon.com/512/906/906377.png" alt="Telegram" loading="lazy">
             <div class="icon-text">
                 <h3>Telegram</h3>
                 <p>Аккаунт</p>
@@ -255,10 +364,19 @@
         // Определение текущего URL
         const currentUrl = window.location.href;
         
-        // Копирование ссылки
+        // Копирование ссылки с улучшенным UX
         document.getElementById('copyLink').addEventListener('click', () => {
             navigator.clipboard.writeText(currentUrl).then(() => {
-                alert('Ссылка скопирована! Теперь вы можете отправить её друзьям');
+                const originalText = document.getElementById('copyLink').innerHTML;
+                document.getElementById('copyLink').innerHTML = `
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                    </svg>
+                    Ссылка скопирована!
+                `;
+                setTimeout(() => {
+                    document.getElementById('copyLink').innerHTML = originalText;
+                }, 2000);
             }).catch(err => {
                 alert('Не удалось скопировать ссылку: ' + err);
             });
