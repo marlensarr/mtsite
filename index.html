@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -37,48 +38,50 @@
             overflow-x: hidden;
         }
         
-        /* Анимированные фоновые изображения */
-        .floating-images {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .floating-img {
+        /* Анимированный градиентный фон */
+        body::before {
+            content: "";
             position: absolute;
-            width: 150px;
-            height: 150px;
-            opacity: 0.1;
-            background-size: cover;
-            background-position: center;
-            filter: sepia(1) hue-rotate(220deg) brightness(0.8);
-            animation: float linear infinite;
-            border-radius: 10px;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at center, 
+                rgba(124, 77, 255, 0.15) 0%, 
+                transparent 60%
+            );
+            z-index: -1;
+            animation: gradientMove 15s infinite alternate linear;
         }
         
-        @keyframes float {
-            0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
-            }
-            100% {
-                transform: translateY(-100vh) translateX(50px) rotate(360deg);
-            }
+        @keyframes gradientMove {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(25%, 25%); }
+            100% { transform: translate(-25%, -25%); }
         }
         
-        /* Остальные стили остаются без изменений */
         .header {
             text-align: center;
             margin-bottom: 40px;
             max-width: 600px;
             animation: fadeIn 1s ease;
-            background: rgba(10, 10, 10, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+        }
+        
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ff6b6b, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(124, 77, 255, 0.2);
+        }
+        
+        .header p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 0.8;
+            line-height: 1.6;
         }
         
         .container {
@@ -88,18 +91,229 @@
             width: 100%;
             max-width: 900px;
             animation: slideUp 0.8s ease;
-            background: rgba(26, 26, 26, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
         }
         
-        /* ... остальные стили остаются такими же ... */
+        .icon-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            gap: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Эффект "блика" при наведении */
+        .icon-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 45%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 55%
+            );
+            transform: rotate(30deg);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .icon-card:hover::after {
+            opacity: 1;
+            animation: shine 1.5s;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        .icon-card:hover, .icon-card:active {
+            background: #222;
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: rgba(124, 77, 255, 0.3);
+        }
+        
+        .icon-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            transition: var(--transition);
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+        }
+        
+        .icon-card:hover img {
+            transform: scale(1.15) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(124, 77, 255, 0.3));
+        }
+        
+        .icon-text {
+            flex: 1;
+        }
+        
+        .icon-text h3 {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .icon-card:hover .icon-text h3 {
+            color: var(--accent-light);
+        }
+        
+        .icon-text p {
+            font-size: 1rem;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+        
+        .share-section {
+            margin-top: 50px;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 1.2s ease;
+        }
+        
+        .share-title {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .share-button {
+            background: rgba(124, 77, 255, 0.15);
+            color: var(--text-light);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(124, 77, 255, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Эффект пульсации при клике */
+        .share-button:active::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+            animation: pulse 0.5s;
+        }
+        
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(20); opacity: 0; }
+        }
+        
+        .share-button:hover {
+            background: rgba(124, 77, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(124, 77, 255, 0.2);
+        }
+        
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            animation: fadeIn 1.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Адаптив для мобильных устройств */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            .icon-card {
+                padding: 20px;
+                gap: 18px;
+            }
+            
+            .icon-card img {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .share-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Эффект загрузки для иконок */
+        .icon-card img {
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .icon-card:nth-child(1) img {
+            animation-delay: 0.2s;
+        }
+        
+        .icon-card:nth-child(2) img {
+            animation-delay: 0.4s;
+        }
     </style>
 </head>
 <body>
-    <div class="floating-images" id="floatingImages"></div>
-    
     <div class="header">
         <h1>Мои приложения</h1>
         <p>Алихан қотақ!</p>
@@ -125,42 +339,74 @@
         </div>
     </div>
     
-    <!-- Остальная часть кода остается без изменений -->
+    <div class="share-section">
+        <div class="share-title">Поделиться этой страницей</div>
+        <div class="share-buttons">
+            <button class="share-button" id="copyLink">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+                Копировать ссылку
+            </button>
+            <button class="share-button" id="shareBtn">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                </svg>
+                Отправить
+            </button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Страница создана для личного использования</p>
+    </div>
 
     <script>
-        // Создаем плавающие изображения
-        const floatingImages = document.getElementById('floatingImages');
-        const imageUrl = 'https://i.pinimg.com/564x/4y/e6/AR/m1i.jpg'; // Замените на реальный URL
+        // Определение текущего URL
+        const currentUrl = window.location.href;
         
-        // Создаем 20 плавающих изображений
-        for (let i = 0; i < 20; i++) {
-            const img = document.createElement('div');
-            img.className = 'floating-img';
-            img.style.backgroundImage = `url(${imageUrl})`;
-            
-            // Рандомные начальные позиции
-            img.style.left = `${Math.random() * 100}%`;
-            img.style.top = `${Math.random() * 100}%`;
-            
-            // Рандомные размеры
-            const size = 100 + Math.random() * 100;
-            img.style.width = `${size}px`;
-            img.style.height = `${size}px`;
-            
-            // Рандомная прозрачность
-            img.style.opacity = `${0.05 + Math.random() * 0.1}`;
-            
-            // Рандомная скорость анимации
-            const duration = 30 + Math.random() * 60;
-            img.style.animationDuration = `${duration}s`;
-            
-            // Рандомная задержка анимации
-            img.style.animationDelay = `${Math.random() * 20}s`;
-            
-            floatingImages.appendChild(img);
-        }
+        // Копирование ссылки с улучшенным UX
+        document.getElementById('copyLink').addEventListener('click', () => {
+            navigator.clipboard.writeText(currentUrl).then(() => {
+                const originalText = document.getElementById('copyLink').innerHTML;
+                document.getElementById('copyLink').innerHTML = `
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                    </svg>
+                    Ссылка скопирована!
+                `;
+                setTimeout(() => {
+                    document.getElementById('copyLink').innerHTML = originalText;
+                }, 2000);
+            }).catch(err => {
+                alert('Не удалось скопировать ссылку: ' + err);
+            });
+        });
         
-        // Остальной JavaScript код остается без изменений
+        // Нативная функция "Поделиться"
+        document.getElementById('shareBtn').addEventListener('click', async () => {
+            try {
+                if (navigator.share) {
+                    await navigator.share({
+                        title: 'Мои приложения',
+                        text: 'Посмотрите мою страницу с быстрым доступом к сервисам',
+                        url: currentUrl
+                    });
+                } else {
+                    alert('Ваш браузер не поддерживает функцию "Поделиться". Используйте кнопку "Копировать ссылку".');
+                }
+            } catch (err) {
+                console.log('Ошибка при использовании Share API:', err);
+            }
+        });
+        
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.icon-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
     </script>
 </body>
 </html>
