@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои приложения | Быстрый доступ</title>
+    <meta name="description" content="Чё смотришь, глаза выпадут!">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --bg-dark: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --accent: #7c4dff;
+            --text-light: #f5f5f5;
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        body {
+            background: var(--bg-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            padding: 20px;
+            color: var(--text-light);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(124, 77, 255, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 500px;
+            animation: fadeIn 1s ease;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #7c4dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(124, 77, 255, 0.2);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            max-width: 400px;
+            animation: slideUp 0.8s ease;
+        }
+        
+        .icon-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 22px;
+            gap: 22px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .icon-card:hover, .icon-card:active {
+            background: #222;
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: rgba(124, 77, 255, 0.3);
+        }
+        
+        .icon-card img {
+            width: 54px;
+            height: 54px;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+        
+        .icon-card:hover img {
+            transform: scale(1.15);
+        }
+        
+        .icon-text {
+            flex: 1;
+        }
+        
+        .icon-text h3 {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        
+        .icon-text p {
+            font-size: 0.95rem;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+        
+        .share-section {
+            margin-top: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 1.2s ease;
+        }
+        
+        .share-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .share-button {
+            background: rgba(124, 77, 255, 0.15);
+            color: var(--text-light);
+            border: none;
+            padding: 14px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(124, 77, 255, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .share-button:hover {
+            background: rgba(124, 77, 255, 0.25);
+            transform: translateY(-3px);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            animation: fadeIn 1.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Адаптив для маленьких экранов */
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.8rem; }
+            .icon-card { padding: 18px; gap: 18px; }
+            .icon-card img { width: 48px; height: 48px; }
+            .share-buttons { flex-direction: column; }
+            .share-button { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Мои приложения</h1>
+        <p>Чё смотришь, глаза выпадут!</p>
+    </div>
+    
+    <div class="container">
+  
+        <!-- Telegram Account 1 -->
+        <div class="icon-card" onclick="window.open('https://t.me/amistadinfoo', '_blank')">
+            <img src="https://cdn-icons-png.flaticon.com/512/906/906377.png" alt="Telegram">
+            <div class="icon-text">
+                <h3>Telegram</h3>
+                <p>Аккаунт: @amistadinfoo</p>
+            </div>
+        </div>
+        
+        <!-- Telegram Account 2 -->
+        <div class="icon-card" onclick="window.open('https://t.me/marlensarr', '_blank')">
+            <img src="https://cdn-icons-png.flaticon.com/512/906/906377.png" alt="Telegram">
+            <div class="icon-text">
+                <h3>Telegram</h3>
+                <p>Аккаунт: @marlensarr</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="share-section">
+        <div class="share-title">Поделиться этой страницей</div>
+        <div class="share-buttons">
+            <button class="share-button" id="copyLink">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+                Копировать ссылку
+            </button>
+            <button class="share-button" id="shareBtn">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                </svg>
+                Отправить
+            </button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Страница создана для личного использования</p>
+    </div>
+
+    <script>
+        // Определение текущего URL
+        const currentUrl = window.location.href;
+        
+        // Копирование ссылки
+        document.getElementById('copyLink').addEventListener('click', () => {
+            navigator.clipboard.writeText(currentUrl).then(() => {
+                alert('Ссылка скопирована! Теперь вы можете отправить её друзьям');
+            }).catch(err => {
+                alert('Не удалось скопировать ссылку: ' + err);
+            });
+        });
+        
+        // Нативная функция "Поделиться"
+        document.getElementById('shareBtn').addEventListener('click', async () => {
+            try {
+                if (navigator.share) {
+                    await navigator.share({
+                        title: 'Мои приложения',
+                        text: 'Посмотрите мою страницу с быстрым доступом к сервисам',
+                        url: currentUrl
+                    });
+                } else {
+                    alert('Ваш браузер не поддерживает функцию "Поделиться". Используйте кнопку "Копировать ссылку".');
+                }
+            } catch (err) {
+                console.log('Ошибка при использовании Share API:', err);
+            }
+        });
+        
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.icon-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
